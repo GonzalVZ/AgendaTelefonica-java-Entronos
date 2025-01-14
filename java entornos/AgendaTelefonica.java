@@ -3,7 +3,7 @@ import java.util.*;
 
 public class AgendaTelefonica {
 
-    private static final String FILE_NAME = "agenda.dat";
+    private static String fileName = "agenda.dat";
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -36,13 +36,17 @@ public class AgendaTelefonica {
         }
     }
 
-    private static void addContact(Scanner scanner) {
+    public static void setFileName(String fileName) {
+        AgendaTelefonica.fileName = fileName;
+    }
+
+    public static void addContact(Scanner scanner) {
         System.out.print("Ingrese el nombre: ");
         String name = scanner.nextLine();
         System.out.print("Ingrese el teléfono: ");
         String phone = scanner.nextLine();
 
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_NAME, true))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName, true))) {
             oos.writeObject(new Contact(name, phone));
             System.out.println("Contacto añadido exitosamente.");
         } catch (IOException e) {
@@ -50,7 +54,7 @@ public class AgendaTelefonica {
         }
     }
 
-    private static void deleteContact(Scanner scanner) {
+    public static void deleteContact(Scanner scanner) {
         System.out.print("Ingrese el nombre del contacto a eliminar: ");
         String nameToDelete = scanner.nextLine();
         List<Contact> contacts = loadContacts();
@@ -64,7 +68,7 @@ public class AgendaTelefonica {
         }
     }
 
-    private static void showContacts() {
+    public static void showContacts() {
         List<Contact> contacts = loadContacts();
         if (contacts.isEmpty()) {
             System.out.println("La agenda está vacía.");
@@ -76,9 +80,9 @@ public class AgendaTelefonica {
         }
     }
 
-    private static List<Contact> loadContacts() {
+    public static List<Contact> loadContacts() {
         List<Contact> contacts = new ArrayList<>();
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FILE_NAME))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
             while (true) {
                 contacts.add((Contact) ois.readObject());
             }
@@ -91,7 +95,7 @@ public class AgendaTelefonica {
     }
 
     private static void saveContacts(List<Contact> contacts) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_NAME))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
             for (Contact contact : contacts) {
                 oos.writeObject(contact);
             }
@@ -100,7 +104,7 @@ public class AgendaTelefonica {
         }
     }
 
-    private static class Contact implements Serializable {
+    public static class Contact implements Serializable {
         private final String name;
         private final String phone;
 
