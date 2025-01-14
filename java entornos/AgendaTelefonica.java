@@ -15,7 +15,7 @@ public class AgendaTelefonica {
             System.out.println("4. Salir");
             System.out.print("Seleccione una opción: ");
             int opcion = scanner.nextInt();
-            scanner.nextLine(); // Limpiar buffer
+            scanner.nextLine(); 
 
             switch (opcion) {
                 case 1:
@@ -83,7 +83,7 @@ public class AgendaTelefonica {
                 contacts.add((Contact) ois.readObject());
             }
         } catch (EOFException e) {
-            // Fin del archivo
+            
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error al cargar los contactos: " + e.getMessage());
         }
